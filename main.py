@@ -14,7 +14,7 @@ cache = dict()
 def resolve(query):
     if query in cache:
         return cache[query]
-    message = dns.message.make_query(qname=query, rdtype=dns.rdatatype.A, rdclass=dns.rdataclass.IN)
+    message = dns.message.make_query(qname=query, rdtype=dns.rdatatype.A)
     for root in roots:
         response = resolve_recursive(message, str(root))
         if response is not None:
@@ -24,7 +24,7 @@ def resolve(query):
 
 
 def resolve_recursive(query, parent):
-    response = dns.query.udp(q=query, where=parent, raise_on_truncation=False)
+    response = dns.query.udp(q=query, where=parent)
     if response:
         if response.answer:
             return response
